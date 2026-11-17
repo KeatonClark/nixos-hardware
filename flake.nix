@@ -526,8 +526,27 @@
           rpi3-kernel = (pkgs.callPackage ./raspberry-pi/common/kernel.nix { rpiVersion = 3; });
           rpi4-kernel = (pkgs.callPackage ./raspberry-pi/common/kernel.nix { rpiVersion = 4; });
           rpi5-kernel = (pkgs.callPackage ./raspberry-pi/common/kernel.nix { rpiVersion = 5; });
+
         }
-      );
+      ) // {
+        aarch64-linux.am64x-kernel = let
+          pkgs = (import nixpkgs {
+            system = "x86_64-linux";
+            crossSystem = "aarch64-linux";
+          });
+        in
+        pkgs.callPackage ./phytec/linux-phytec.nix { };
+      };
+
+      nixosConfigurations.test = nixpkgs.lib.nixosSystem {
+        modules = [
+          ./phytec/sd-image.nix
+          {
+            nixpkgs.buildPlatform = "x86_64-linux";
+            nixpkgs.hostPlatform = "aarch64-linux";
+          }
+        ];
+      };
 
       # Hydra jobset for Raspberry Pi kernels
       hydraJobs = {
