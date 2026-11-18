@@ -528,15 +528,15 @@
           rpi5-kernel = (pkgs.callPackage ./raspberry-pi/common/kernel.nix { rpiVersion = 5; });
 
         }
-      ) // {
-        aarch64-linux.am64x-kernel = let
-          pkgs = (import nixpkgs {
-            system = "x86_64-linux";
-            crossSystem = "aarch64-linux";
-          });
-        in
-        pkgs.callPackage ./phytec/linux-phytec.nix { };
-      };
+      ) // (let
+        pkgs = (import nixpkgs {
+          system = "x86_64-linux";
+          crossSystem = "aarch64-linux";
+        });
+      in {
+        aarch64-linux.am64x-kernel = pkgs.callPackage ./phytec/linux-phytec.nix { };
+        aarch64-linux.am64x-u-boot = pkgs.callPackage ./phytec/u-boot-phytec.nix { };
+      });
 
       nixosConfigurations.test = nixpkgs.lib.nixosSystem {
         modules = [
