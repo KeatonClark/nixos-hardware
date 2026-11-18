@@ -34,19 +34,17 @@ in {
     imageName = "nixos-am64x.img";
     compressImage = false;
 
-    firmwareSize = 1024; # MiB
+    firmwareSize = 256; # MiB
     firmwarePartitionName = "BOOT";
 
     storePaths = [ ];
-    expandOnBoot = false;
+    expandOnBoot = true;
 
     populateFirmwareCommands = ''
       cp ${tiboot3} firmware/tiboot3.bin
       cp ${tispl}   firmware/tispl.bin
       cp ${uboot}/u-boot.img   firmware/u-boot.img
 
-      cp ${kernel}/Image firmware/Image
-      cp ${kernel}/dtbs/ti/${dtbName} firmware/${dtbName}
       cp ${config.system.build.initialRamdisk}/${config.system.boot.loader.initrdFile} firmware/initrd
       ${config.boot.loader.generic-extlinux-compatible.populateCmd} \
         -c ${config.system.build.toplevel} \
