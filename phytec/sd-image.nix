@@ -9,13 +9,19 @@ let
     url = "${phytecDownload}/tispl.bin";
     hash = "sha256-7rr71KbtLgPbyYlrzlR8aEWtcpJIkUz87XPQJiBXmIs=";
   };
-  uboot = pkgs.callPackage ./u-boot-phytec.nix { };
-  kernel = pkgs.callPackage ./linux-phytec.nix { };
+  uboot = pkgs.u-boot-phycore-am64x-a53;
+  kernel = pkgs.linux-phytec-ti;
 
 in {
   imports = [
     "${modulesPath}/installer/sd-card/sd-image.nix"
   ];
+  nixpkgs = {
+    overlays = [
+      (import ./phycore-am64x/overlay.nix)
+    ];
+  };
+
   hardware = {
     enableAllHardware = lib.mkForce false;
     deviceTree = let
@@ -42,8 +48,8 @@ in {
     };
   };
 
+  image.baseName = "nixos-phycore-am64x-${config.system.nixos.label}-${pkgs.stdenv.hostPlatform.system}";
   sdImage = {
-    imageName = "nixos-am64x.img";
     compressImage = false;
 
     firmwareSize = 128;
