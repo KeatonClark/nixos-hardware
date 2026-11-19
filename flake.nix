@@ -536,12 +536,19 @@
       in {
         aarch64-linux.am64x-kernel = pkgs.callPackage ./phytec/linux-phytec.nix { };
         aarch64-linux.am64x-u-boot = pkgs.callPackage ./phytec/u-boot-phytec.nix { };
+      }) // (let
+        pkgs = (import nixpkgs {
+          system = "x86_64-linux";
+        }).pkgsCross.arm-embedded;
+      in {
+        arm-embedded.am64x-u-boot-r5 = pkgs.callPackage ./phytec/u-boot-phytec-r5.nix { };
       });
 
       nixosConfigurations.test = nixpkgs.lib.nixosSystem {
         modules = [
           ./phytec/sd-image.nix
           {
+            users.users.root.initialPassword = "password";
             nixpkgs.buildPlatform = "x86_64-linux";
             nixpkgs.hostPlatform = "aarch64-linux";
           }

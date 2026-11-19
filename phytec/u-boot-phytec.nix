@@ -21,6 +21,7 @@ buildUBoot rec {
   };
   filesToInstall = [
     "u-boot.img"
+    "tispl.bin"
   ];
   extraConfig = ''
     CONFIG_CMD_SYSBOOT=y
