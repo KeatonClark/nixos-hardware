@@ -1,17 +1,8 @@
 { config, lib, pkgs, modulesPath, ... }:
 let
-  phytecDownload = "https://download.phytec.de/Software/Linux/BSP-Yocto-AM64x/BSP-Yocto-Ampliphy-AM64x-PD26.1.0/images/ampliphy/phyboard-electra-am64xx-2";
-  tiboot3 = pkgs.fetchurl {
-    url = "${phytecDownload}/tiboot3.bin";
-    hash = "sha256-HWR/X7mZIQBSX7f88vQkM1UTKb/segNOY9YOKbR4f8o=";
-  };
-  tispl = pkgs.fetchurl {
-    url = "${phytecDownload}/tispl.bin";
-    hash = "sha256-7rr71KbtLgPbyYlrzlR8aEWtcpJIkUz87XPQJiBXmIs=";
-  };
-  uboot = pkgs.u-boot-phycore-am64x-a53;
+  uboot-r5 = pkgs.pkgsCross.arm-embedded.u-boot-phycore-am64x-r5;
+  uboot-a53 = pkgs.u-boot-phycore-am64x-a53;
   kernel = pkgs.linux-phytec-ti;
-
 in {
   imports = [
     "${modulesPath}/installer/sd-card/sd-image.nix"
@@ -59,9 +50,9 @@ in {
     expandOnBoot = true;
 
     populateFirmwareCommands = ''
-      cp ${tiboot3}             firmware/tiboot3.bin
-      cp ${tispl}               firmware/tispl.bin
-      cp ${uboot}/u-boot.img    firmware/u-boot.img
+      cp ${uboot-r5}/tiboot3.bin    firmware/tiboot3.bin
+      cp ${uboot-a53}/tispl.bin     firmware/tispl.bin
+      cp ${uboot-a53}/u-boot.img    firmware/u-boot.img
 
       cp ${config.system.build.initialRamdisk}/${config.system.boot.loader.initrdFile} firmware/initrd
       ${config.boot.loader.generic-extlinux-compatible.populateCmd} \
