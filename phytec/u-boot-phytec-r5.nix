@@ -7,8 +7,8 @@ let
   tiLinuxFirmware = fetchFromGitHub {
     owner = "TexasInstruments";
     repo = "ti-linux-firmware";
-    rev = "11.02.21";
-    sha256 = "sha256-MmpIm9tCVDNUhRpByewR+kIDR7FEXTjuk55YUgH04zo=";
+    rev = "12.01.00.06";
+    sha256 = "sha256-bWWAR8JUVYMSaZ1tzDKd8AlMcIxN4Cb5qct3M1VR2dc=";
   };
 in (buildUBoot rec {
   pname = "u-boot-phytec";

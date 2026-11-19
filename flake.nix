@@ -538,7 +538,7 @@
         });
       in {
         aarch64-linux.am64x-kernel = pkgs.linux-phytec-ti;
-        aarch64-linux.am64x-u-boot = pkgs.u-boot-phycore-am64x;
+        aarch64-linux.am64x-u-boot = pkgs.u-boot-phycore-am64x-a53;
         arm-embedded.am64x-u-boot-r5 = pkgs.pkgsCross.arm-embedded.u-boot-phycore-am64x-r5;
       });
 
