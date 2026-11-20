@@ -544,7 +544,8 @@
 
       nixosConfigurations.test = nixpkgs.lib.nixosSystem {
         modules = [
-          ./phytec/sd-image.nix
+          ./phytec/phycore-am64x
+          "${nixpkgs}/nixos/modules/installer/sd-card/sd-image.nix"
           {
             users.users.root.initialPassword = "password";
             nixpkgs.buildPlatform = "x86_64-linux";

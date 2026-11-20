@@ -1,9 +1,6 @@
 final: prev: {
-  u-boot-phycore-am64x-a53 = final.callPackage ../u-boot-phytec.nix { };
-  linux-phytec-ti = final.callPackage ../linux-phytec.nix { };
-  pkgsCross.arm-embedded = prev.pkgsCross.arm-embedded // {
-    u-boot-phycore-am64x-r5 = prev.pkgsCross.arm-embedded.callPackage ../u-boot-phytec-r5.nix { };
-  };
+  linux-phytec-ti = final.callPackage ./linux-phytec-ti.nix { };
+
   arm-trusted-firmware-k3 = final.buildArmTrustedFirmware rec {
     version = "lts-v2.14.1";
     src = final.fetchFromGitHub {
@@ -20,5 +17,12 @@ final: prev: {
     filesToInstall = [
       "build/k3/lite/release/bl31.bin"
     ];
+  };
+
+  # am64x packages
+  u-boot-phycore-am64x-a53 = final.callPackage ./phycore-am64x/u-boot-phycore-am64x-a53.nix { };
+  optee-os-k3-am64x = final.callPackage ./phycore-am64x/optee-os-k3-am64x.nix { };
+  pkgsCross.arm-embedded = prev.pkgsCross.arm-embedded // {
+    u-boot-phycore-am64x-r5 = prev.pkgsCross.arm-embedded.callPackage ./phycore-am64x/u-boot-phycore-am64x-r5.nix { };
   };
 }
