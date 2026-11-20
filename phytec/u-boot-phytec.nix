@@ -1,9 +1,9 @@
 {
   buildUBoot,
   fetchFromGitHub,
-  fetchurl,
   stdenv,
   buildPackages,
+  arm-trusted-firmware-k3,
 }:
 let
   optee-os = stdenv.mkDerivation rec {
@@ -43,11 +43,7 @@ let
       install -m0644 ./out/arm-plat-k3/core/tee-raw.bin $out/
     '';
   };
-  phytecDownload = "https://download.phytec.de/Software/Linux/BSP-Yocto-AM64x/BSP-Yocto-Ampliphy-AM64x-PD26.1.0/images/ampliphy/phyboard-electra-am64xx-2";
-  BL31 = fetchurl {
-    url = "${phytecDownload}/trusted-firmware-a/bl31.bin";
-    hash = "sha256-IqqZSg8hZtyu++hMwO2ZHHLP0PQ9J1CTYper1CHf7Yc=";
-  };
+  BL31 = "${arm-trusted-firmware-k3}/bl31.bin";
   TEE = "${optee-os}/tee-raw.bin";
 in
 buildUBoot rec {
