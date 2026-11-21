@@ -2,15 +2,9 @@
   buildUBoot,
   fetchFromGitHub,
   buildPackages,
+  ti-linux-firmware,
 }:
-let
-  tiLinuxFirmware = fetchFromGitHub {
-    owner = "TexasInstruments";
-    repo = "ti-linux-firmware";
-    rev = "12.01.00.06";
-    sha256 = "sha256-bWWAR8JUVYMSaZ1tzDKd8AlMcIxN4Cb5qct3M1VR2dc=";
-  };
-in (buildUBoot rec {
+(buildUBoot rec {
   pname = "u-boot-phytec";
   version = "2026.01";
   src = fetchFromGitHub {
@@ -24,7 +18,7 @@ in (buildUBoot rec {
   ];
   defconfig = "phycore_am64x_r5_defconfig";
   env = {
-    BINMAN_INDIRS=tiLinuxFirmware;
+    BINMAN_INDIRS=ti-linux-firmware;
   };
 }).overrideAttrs (old: {
   nativeBuildInputs = [

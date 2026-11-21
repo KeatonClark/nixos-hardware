@@ -533,7 +533,7 @@
           system = "x86_64-linux";
           crossSystem = "aarch64-linux";
           overlays = [
-            (import ./phytec/phycore-am64x/overlay.nix)
+            (import ./phytec/overlay.nix)
           ];
         });
       in {
@@ -547,6 +547,13 @@
           ./phytec/phycore-am64x
           "${nixpkgs}/nixos/modules/installer/sd-card/sd-image.nix"
           {
+            services.openssh = {
+              enable = true;
+              settings = {
+                PasswordAuthentication = true;
+                PermitRootLogin = "yes";
+              };
+            };
             users.users.root.initialPassword = "password";
             nixpkgs.buildPlatform = "x86_64-linux";
             nixpkgs.hostPlatform = "aarch64-linux";

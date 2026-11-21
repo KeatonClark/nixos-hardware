@@ -1,6 +1,13 @@
 final: prev: {
   linux-phytec-ti = final.callPackage ./linux-phytec-ti.nix { };
 
+  ti-linux-firmware = final.fetchFromGitHub {
+    owner = "TexasInstruments";
+    repo = "ti-linux-firmware";
+    rev = "12.01.00.06";
+    sha256 = "sha256-bWWAR8JUVYMSaZ1tzDKd8AlMcIxN4Cb5qct3M1VR2dc=";
+  };
+
   arm-trusted-firmware-k3 = final.buildArmTrustedFirmware rec {
     version = "lts-v2.14.1";
     src = final.fetchFromGitHub {
