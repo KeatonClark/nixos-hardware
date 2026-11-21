@@ -155,10 +155,16 @@ in
     }
 
     (lib.mkIf (options ? sdImage) {
+
+      fileSystems."/boot" = {
+        device = "/dev/disk/by-label/BOOT";
+        fsType = "vfat";
+      };
+
       sdImage = {
         compressImage = false;
 
-        firmwareSize = 128;
+        firmwareSize = 256;
         firmwarePartitionName = "BOOT";
 
         storePaths = [ ];
