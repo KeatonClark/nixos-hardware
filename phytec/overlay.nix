@@ -19,6 +19,7 @@ final: prev: {
     platform = "k3";
     extraMakeFlags = [
       "TARGET_BOARD=lite"
+      "SPD=opteed"
       "bl31"
     ];
     filesToInstall = [
