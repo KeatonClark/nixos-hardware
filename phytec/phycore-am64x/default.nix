@@ -94,6 +94,25 @@ in
         ];
       };
 
+      networking.useNetworkd = lib.mkDefault true;
+      systemd.network = {
+        enable = lib.mkDefault true;
+        networks = {
+          "10-can1" = {
+            matchConfig.Name = "can1";
+            canConfig = {
+              BitRate = "500K";
+            };
+          };
+          "10-can0" = {
+            matchConfig.Name = "can0";
+            canConfig = {
+              BitRate = "500K";
+            };
+          };
+        };
+      };
+
       hardware = {
         enableAllHardware = lib.mkForce false;
 
