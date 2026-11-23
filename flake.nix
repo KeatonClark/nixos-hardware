@@ -413,6 +413,7 @@
           onenetbook-4 = import ./onenetbook/4;
           olimex-teres_i = import ./olimex/teres_i;
           pcengines-apu = import ./pcengines/apu;
+          phycore-am64x = import ./phytec/phycore-am64x;
           pine64-pinebook-pro = import ./pine64/pinebook-pro;
           pine64-rockpro64 = import ./pine64/rockpro64;
           pine64-star64 = import ./pine64/star64;
